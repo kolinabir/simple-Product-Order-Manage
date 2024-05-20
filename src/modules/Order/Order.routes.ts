@@ -6,7 +6,6 @@ import { orderController } from './Order.controller'
 const router = Router()
 
 router.get('/', orderController.getAllOrders)
-router.get('/', orderController.getOrdersByEmail)
 router.post(
   '/',
   validateRequest(createOrderValidation),

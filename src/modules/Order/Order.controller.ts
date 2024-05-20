@@ -13,7 +13,9 @@ const createOrder = catchAsync(async (req, res) => {
 })
 
 const getAllOrders = catchAsync(async (req, res) => {
-  const result = await orderService.getAllOrders()
+  const result = await orderService.getAllOrders(
+    req.query.email as string | undefined,
+  )
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -21,17 +23,9 @@ const getAllOrders = catchAsync(async (req, res) => {
   })
 })
 
-const getOrdersByEmail = catchAsync(async (req, res) => {
-  const result = await orderService.getOrdersByEmail(req.params.email)
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    data: result,
-  })
-})
+
 
 export const orderController = {
   createOrder,
   getAllOrders,
-  getOrdersByEmail,
 }

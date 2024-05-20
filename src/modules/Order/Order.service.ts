@@ -25,21 +25,18 @@ const createOrder = async (order: TOrder) => {
   return result
 }
 
-const getAllOrders = async () => {
+const getAllOrders = async (email?: string) => {
+  if (email) {
+    const result = await OrderModel.find({ email })
+    return result
+  }
   const result = await OrderModel.find()
   return result
 }
 
-const getOrdersByEmail = async (email: string) => {
-  const result = await OrderModel.find({ email })
-  if (!result) {
-    throw new Error('Order not found')
-  }
-  return result
-}
+
 
 export const orderService = {
   createOrder,
   getAllOrders,
-  getOrdersByEmail,
 }
