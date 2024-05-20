@@ -13,7 +13,9 @@ const createProduct = catchAsync(async (req, res) => {
 })
 
 const getAllProducts = catchAsync(async (req, res) => {
-  const result = await productService.getAllProducts()
+  const result = await productService.getAllProducts(
+    req.query.searchTerm as string | undefined,
+  )
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -52,17 +54,7 @@ const deleteProduct = catchAsync(async (req, res) => {
   })
 })
 
-const searchProduct = catchAsync(async (req, res) => {
-  const result = await productService.searchProduct(
-    req.query.searchTerm as string,
-  )
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: 'Product fetched successfully',
-    data: result,
-  })
-})
+
 
 export const productController = {
   createProduct,
@@ -70,5 +62,4 @@ export const productController = {
   getProductById,
   updateProduct,
   deleteProduct,
-  searchProduct,
 }

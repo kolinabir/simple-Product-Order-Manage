@@ -6,7 +6,19 @@ const createProduct = async (product: TProduct) => {
   return result
 }
 
-const getAllProducts = async () => {
+const getAllProducts = async (searchTerm?: string) => {
+  if (searchTerm) {
+    const result = await ProductModel.find({
+      $or: [
+        { name: { $regex: searchTerm, $options: 'i' } },
+        { description: { $regex: searchTerm, $options: 'i' } },
+        { category: { $regex: searchTerm, $options: 'i' } },
+        { 'variants.type': { $regex: searchTerm, $options: 'i' } },
+        { 'variants.value': { $regex: searchTerm, $options: 'i' } },
+      ],
+    })
+    return result
+  }
   const result = await ProductModel.find()
   return result
 }
@@ -28,18 +40,6 @@ const deleteProduct = async (id: string) => {
   return result
 }
 
-const searchProduct = async (query: string) => {
-  const result = await ProductModel.find({
-    $or: [
-      { name: { $regex: query, $options: 'i' } },
-      { description: { $regex: query, $options: 'i' } },
-      { category: { $regex: query, $options: 'i' } },
-      { 'variants.type': { $regex: query, $options: 'i' } },
-      { 'variants.value': { $regex: query, $options: 'i' } },
-    ],
-  })
-  return result
-}
 
 export const productService = {
   createProduct,
@@ -47,5 +47,4 @@ export const productService = {
   getProductById,
   updateProduct,
   deleteProduct,
-  searchProduct,
 }
